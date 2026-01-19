@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+pydantic-ai
+pydantic-ai-slim[openai]
+devtools
