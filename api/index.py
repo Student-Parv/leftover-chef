@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from pydantic_ai import Agent
 from pydantic_ai.models.openai import OpenAIModel
 import os
+import httpx
 
 # 1. Setup the App
 app = FastAPI()
@@ -19,10 +20,13 @@ if not OPENROUTER_API_KEY:
     # Helpful for Vercel logs when the env var is missing
     print("Warning: OPENROUTER_API_KEY is not set; requests will fail.")
 
+# Create custom httpx client with OpenRouter base URL
+http_client = httpx.AsyncClient(base_url="https://openrouter.ai/api/v1")
+
 model = OpenAIModel(
     "google/gemini-2.0-flash-exp:free",
-    base_url="https://openrouter.ai/api/v1",
     api_key=OPENROUTER_API_KEY,
+    http_client=http_client,
 )
 
 agent = Agent(
